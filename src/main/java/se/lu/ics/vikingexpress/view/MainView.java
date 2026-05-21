@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import se.lu.ics.vikingexpress.controller.*;
@@ -620,13 +621,13 @@ public class MainView extends BorderPane {
         return grid;
     }
 
-    private void addFormRow(GridPane grid, int row, String labelText, javafx.scene.Node field) {
+    private void addFormRow(GridPane grid, int row, String labelText, Node field) {
         grid.add(new Label(labelText), 0, row);
         grid.add(field, 1, row);
     }
 
-    private void setFormWidth(double width, javafx.scene.Node... nodes) {
-        for (javafx.scene.Node node : nodes) {
+    private void setFormWidth(double width, Node... nodes) {
+        for (Node node : nodes) {
             if (node instanceof Region region) {
                 region.setPrefWidth(width);
             }
