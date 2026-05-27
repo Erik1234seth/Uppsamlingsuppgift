@@ -10,7 +10,6 @@ import se.lu.ics.vikingexpress.controller.WarehouseController;
 import se.lu.ics.vikingexpress.model.Shipment;
 import se.lu.ics.vikingexpress.model.Warehouse;
 import se.lu.ics.vikingexpress.model.WarehouseRegion;
-import se.lu.ics.vikingexpress.model.WarehouseRegister;
 
 import java.time.LocalDate;
 
@@ -18,13 +17,12 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        WarehouseRegister register = new WarehouseRegister();
-        WarehouseController warehouseController = new WarehouseController(register);
+        WarehouseController warehouseController = new WarehouseController();
         ShipmentController shipmentController = new ShipmentController();
         InspectionController inspectionController = new InspectionController();
         ShipmentLogController logController = new ShipmentLogController();
 
-        loadSampleData(register, shipmentController, inspectionController, logController);
+        loadSampleData(warehouseController, shipmentController, inspectionController, logController);
 
         MainView mainView = new MainView(warehouseController, shipmentController,
                 inspectionController, logController);
@@ -37,20 +35,16 @@ public class App extends Application {
         primaryStage.show();
     }
 
-    private void loadSampleData(WarehouseRegister register,
+    private void loadSampleData(WarehouseController warehouseController,
                                 ShipmentController shipmentController,
                                 InspectionController inspectionController,
                                 ShipmentLogController logController) {
-        Warehouse odinsVault = new Warehouse(
+        Warehouse odinsVault = warehouseController.addWarehouse(
                 "Odin's Vault", "Norrlandsgatan 12, Sundsvall", WarehouseRegion.NORTH, 100);
-        Warehouse valhallaHub = new Warehouse(
+        Warehouse valhallaHub = warehouseController.addWarehouse(
                 "Valhalla Hub", "Storgatan 5, Stockholm", WarehouseRegion.MIDDLE, 200);
-        Warehouse midgardStore = new Warehouse(
+        Warehouse midgardStore = warehouseController.addWarehouse(
                 "Midgard Store", "Södra Vägen 8, Malmö", WarehouseRegion.SOUTH, 150);
-
-        register.addWarehouse(odinsVault);
-        register.addWarehouse(valhallaHub);
-        register.addWarehouse(midgardStore);
 
         // Odin's Vault shipments
         Shipment s1 = shipmentController.addShipment(odinsVault, "Industrial machinery parts", true);

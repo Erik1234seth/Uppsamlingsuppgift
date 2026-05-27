@@ -163,16 +163,11 @@ public class MainView extends BorderPane {
     private void handleDeleteWarehouse() {
         Warehouse selected = warehouseTable.getSelectionModel().getSelectedItem();
         if (selected == null) return;
-
-        Optional<ButtonType> result = showConfirmation(
-                "Delete warehouse \"" + selected.getName() + "\"? This will remove all its shipments.");
-        if (result.isPresent() && result.get() == ButtonType.YES) {
-            warehouseController.removeWarehouse(selected);
-            warehouseList.remove(selected);
-            shipmentList.clear();
-            inspectionList.clear();
-            logList.clear();
-        }
+        warehouseController.removeWarehouse(selected);
+        warehouseList.remove(selected);
+        shipmentList.clear();
+        inspectionList.clear();
+        logList.clear();
     }
 
     private void showWarehouseDialog(Warehouse existing) {
@@ -316,15 +311,11 @@ public class MainView extends BorderPane {
     private void handleDeleteShipment() {
         Shipment selected = shipmentTable.getSelectionModel().getSelectedItem();
         if (selected == null || selectedWarehouse == null) return;
-
-        Optional<ButtonType> result = showConfirmation("Delete shipment \"" + selected.getId() + "\"?");
-        if (result.isPresent() && result.get() == ButtonType.YES) {
-            shipmentController.removeShipment(selectedWarehouse, selected);
-            shipmentList.remove(selected);
-            inspectionList.clear();
-            logList.clear();
-            warehouseTable.refresh();
-        }
+        shipmentController.removeShipment(selectedWarehouse, selected);
+        shipmentList.remove(selected);
+        inspectionList.clear();
+        logList.clear();
+        warehouseTable.refresh();
     }
 
     private void showShipmentDialog(Shipment existing) {
@@ -451,14 +442,10 @@ public class MainView extends BorderPane {
     private void handleRemoveInspection() {
         Inspection selected = inspectionTable.getSelectionModel().getSelectedItem();
         if (selected == null || selectedShipment == null) return;
-
-        Optional<ButtonType> result = showConfirmation("Remove this inspection entry?");
-        if (result.isPresent() && result.get() == ButtonType.YES) {
-            inspectionController.removeInspection(selectedShipment, selected);
-            inspectionList.remove(selected);
-            shipmentTable.refresh();
-            warehouseTable.refresh();
-        }
+        inspectionController.removeInspection(selectedShipment, selected);
+        inspectionList.remove(selected);
+        shipmentTable.refresh();
+        warehouseTable.refresh();
     }
 
     private void showInspectionDialog(Inspection existing) {
@@ -561,12 +548,8 @@ public class MainView extends BorderPane {
     private void handleRemoveLog() {
         ShipmentLog selected = logTable.getSelectionModel().getSelectedItem();
         if (selected == null || selectedShipment == null) return;
-
-        Optional<ButtonType> result = showConfirmation("Remove this log entry?");
-        if (result.isPresent() && result.get() == ButtonType.YES) {
-            logController.removeLog(selectedShipment, selected);
-            logList.remove(selected);
-        }
+        logController.removeLog(selectedShipment, selected);
+        logList.remove(selected);
     }
 
     private void showLogDialog(ShipmentLog existing) {
@@ -632,13 +615,6 @@ public class MainView extends BorderPane {
                 region.setPrefWidth(width);
             }
         }
-    }
-
-    private Optional<ButtonType> showConfirmation(String message) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.YES, ButtonType.NO);
-        alert.setTitle("Confirm");
-        alert.setHeaderText(null);
-        return alert.showAndWait();
     }
 
     private void showError(String message) {
