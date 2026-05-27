@@ -4,7 +4,6 @@ import se.lu.ics.vikingexpress.model.Inspection;
 import se.lu.ics.vikingexpress.model.Shipment;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class InspectionController {
 
@@ -59,9 +58,5 @@ public class InspectionController {
 
     public void removeInspection(Shipment shipment, Inspection inspection) {
         shipment.removeInspection(inspection);
-    }
-
-    public ArrayList<Inspection> getInspections(Shipment shipment) {
-        return shipment.getInspections();
     }
 }

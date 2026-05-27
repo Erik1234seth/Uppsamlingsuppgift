@@ -3,8 +3,6 @@ package se.lu.ics.vikingexpress.controller;
 import se.lu.ics.vikingexpress.model.Shipment;
 import se.lu.ics.vikingexpress.model.Warehouse;
 
-import java.util.ArrayList;
-
 public class ShipmentController {
 
     /**
@@ -41,9 +39,5 @@ public class ShipmentController {
 
     public void removeShipment(Warehouse warehouse, Shipment shipment) {
         warehouse.removeShipment(shipment);
-    }
-
-    public ArrayList<Shipment> getShipments(Warehouse warehouse) {
-        return warehouse.getShipments();
     }
 }

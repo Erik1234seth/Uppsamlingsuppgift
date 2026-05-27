@@ -4,7 +4,6 @@ import se.lu.ics.vikingexpress.model.Shipment;
 import se.lu.ics.vikingexpress.model.ShipmentLog;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class ShipmentLogController {
 
@@ -48,9 +47,5 @@ public class ShipmentLogController {
 
     public void removeLog(Shipment shipment, ShipmentLog log) {
         shipment.removeLog(log);
-    }
-
-    public ArrayList<ShipmentLog> getLogs(Shipment shipment) {
-        return shipment.getLogs();
     }
 }
