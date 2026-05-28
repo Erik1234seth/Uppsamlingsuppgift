@@ -14,23 +14,32 @@ import se.lu.ics.vikingexpress.model.*;
 import java.time.LocalDate;
 import java.util.Optional;
 
+/**
+ * The main view of the application. Displays warehouses, shipments, inspections,
+ * and shipment logs in a three-panel layout. All user interactions are handled here
+ * by calling the appropriate controller method.
+ */
 public class MainView extends BorderPane {
 
+    // Controllers used to validate and apply changes to the model
     private final WarehouseController warehouseController;
     private final ShipmentController shipmentController;
     private final InspectionController inspectionController;
     private final ShipmentLogController logController;
 
+    // ObservableLists are automatically reflected in the tables when items are added or removed
     private final ObservableList<Warehouse> warehouseList;
     private final ObservableList<Shipment> shipmentList;
     private final ObservableList<Inspection> inspectionList;
     private final ObservableList<ShipmentLog> logList;
 
+    // References to the tables so they can be refreshed after edits
     private TableView<Warehouse> warehouseTable;
     private TableView<Shipment> shipmentTable;
     private TableView<Inspection> inspectionTable;
     private TableView<ShipmentLog> logTable;
 
+    // Track what is currently selected so detail panels know what to display
     private Warehouse selectedWarehouse;
     private Shipment selectedShipment;
 
@@ -43,6 +52,8 @@ public class MainView extends BorderPane {
         this.inspectionController = inspectionController;
         this.logController = logController;
 
+        // Pre-populate the warehouse list from the controller; the other lists start empty
+        // and are filled when the user selects a warehouse or shipment
         warehouseList = FXCollections.observableArrayList(warehouseController.getAllWarehouses());
         shipmentList = FXCollections.observableArrayList();
         inspectionList = FXCollections.observableArrayList();
@@ -52,11 +63,13 @@ public class MainView extends BorderPane {
     }
 
     private void buildUI() {
+        // Title bar at the top of the window
         Label title = new Label("VikingExpress - Inventory Management System");
         title.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
         BorderPane.setMargin(title, new Insets(12, 15, 8, 15));
         setTop(title);
 
+        // Three-panel layout: warehouses | shipments | details (inspections + logs)
         SplitPane splitPane = new SplitPane();
         splitPane.getItems().addAll(
                 buildWarehouseSection(),

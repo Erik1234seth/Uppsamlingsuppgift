@@ -13,20 +13,28 @@ import se.lu.ics.vikingexpress.model.WarehouseRegion;
 
 import java.time.LocalDate;
 
+/**
+ * Entry point for the VikingExpress application.
+ * Creates all controllers, loads sample data, and launches the main window.
+ */
 public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        // Create one controller for each type of data in the system
         WarehouseController warehouseController = new WarehouseController();
         ShipmentController shipmentController = new ShipmentController();
         InspectionController inspectionController = new InspectionController();
         ShipmentLogController logController = new ShipmentLogController();
 
+        // Populate the system with sample data so the application is ready to present
         loadSampleData(warehouseController, shipmentController, inspectionController, logController);
 
+        // Build the main view and pass all controllers into it
         MainView mainView = new MainView(warehouseController, shipmentController,
                 inspectionController, logController);
 
+        // Set up and show the window
         Scene scene = new Scene(mainView, 1200, 700);
         primaryStage.setTitle("VikingExpress - Inventory Management");
         primaryStage.setMinWidth(900);
@@ -35,10 +43,16 @@ public class App extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Populates the system with three warehouses, seven shipments, six inspections,
+     * and nine log entries to satisfy the presentation requirement of test data for
+     * every class and every association.
+     */
     private void loadSampleData(WarehouseController warehouseController,
                                 ShipmentController shipmentController,
                                 InspectionController inspectionController,
                                 ShipmentLogController logController) {
+        // Create three warehouses, one per region
         Warehouse odinsVault = warehouseController.addWarehouse(
                 "Odin's Vault", "Norrlandsgatan 12, Sundsvall", WarehouseRegion.NORTH, 100);
         Warehouse valhallaHub = warehouseController.addWarehouse(

@@ -5,19 +5,27 @@ import se.lu.ics.vikingexpress.model.Shipment;
 
 import java.time.LocalDate;
 
+/**
+ * KLASS: InspectionController (Controller i MVC)
+ * Ansvarar för all validering och alla ändringar som rör inspektioner.
+ * Inspektioner tillhör alltid en försändelse, så alla metoder kräver att försändelsen skickas in.
+ */
 public class InspectionController {
 
     /**
-     * Creates an inspection record and attaches it to the given shipment.
+     * METOD: addInspection
+     * Skapar en ny inspektion och kopplar den till den angivna försändelsen.
      *
-     * @param shipment      the shipment being inspected
-     * @param date          inspection date
-     * @param inspectorName name of the inspector
-     * @param result        outcome of the inspection
-     * @return the created Inspection
+     * PARAMETRAR:
+     *   shipment      — försändelsen som inspekterades
+     *   date          — datum för inspektionen (får inte vara null)
+     *   inspectorName — vem som utförde inspektionen (får inte vara tomt)
+     *   result        — resultatet av inspektionen (får inte vara tomt)
+     * Returtyp: Inspection (det nyskapade objektet returneras till vyn)
      */
     public Inspection addInspection(Shipment shipment, LocalDate date,
                                     String inspectorName, String result) {
+        // Validera alla fält innan objektet skapas
         if (date == null) {
             throw new IllegalArgumentException("Inspection date is required.");
         }
@@ -27,18 +35,22 @@ public class InspectionController {
         if (result == null || result.isBlank()) {
             throw new IllegalArgumentException("Inspection result cannot be empty.");
         }
+        // Skapa ett nytt Inspection-objekt och koppla det till försändelsen
         Inspection inspection = new Inspection(date, inspectorName, result);
         shipment.addInspection(inspection);
         return inspection;
     }
 
     /**
-     * Updates an existing inspection.
+     * METOD: updateInspection
+     * Uppdaterar en befintlig inspektions alla fält.
      *
-     * @param inspection    the inspection to update
-     * @param date          new date
-     * @param inspectorName new inspector name
-     * @param result        new result
+     * PARAMETRAR:
+     *   inspection    — det inspektions-objekt som ska uppdateras
+     *   date          — nytt datum
+     *   inspectorName — nytt inspektörsnamn
+     *   result        — nytt resultat
+     * Returtyp: void
      */
     public void updateInspection(Inspection inspection, LocalDate date,
                                  String inspectorName, String result) {
@@ -51,11 +63,21 @@ public class InspectionController {
         if (result == null || result.isBlank()) {
             throw new IllegalArgumentException("Inspection result cannot be empty.");
         }
+        // Anropa setters på Inspection-objektet för att spara de nya värdena
         inspection.setDate(date);
         inspection.setInspectorName(inspectorName);
         inspection.setResult(result);
     }
 
+    /**
+     * METOD: removeInspection
+     * Tar bort en inspektion från försändelsens lista.
+     *
+     * PARAMETRAR:
+     *   shipment   — försändelsen inspektionen tillhör
+     *   inspection — inspektionen som ska tas bort
+     * Returtyp: void
+     */
     public void removeInspection(Shipment shipment, Inspection inspection) {
         shipment.removeInspection(inspection);
     }
